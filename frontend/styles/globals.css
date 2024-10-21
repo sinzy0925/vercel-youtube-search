@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* globals.css */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif; /* フォントを変更 */
+  background-color: #f7f9fc; /* 背景色をより明るいグレーに */
+  color: #333; /* テキストカラーをダークグレーに */
+  line-height: 1.6; /* 行間を少し広げる */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #222; /* 見出しの色をさらに濃く */
+  margin-bottom: 1rem; /* 見出しの下に余白を追加 */
+  font-weight: 600; /* 見出しを太字に */
+}
+
+a {
+  color: #1e90ff; /* リンクの色を鮮やかな青に */
+  text-decoration: none; /* 下線を削除 */
+  transition: color 0.3s ease; /* 色の変化にトランジションを追加 */
+}
+
+a:hover {
+  color: #1c7ed6; /* ホバー時にリンクの色を濃く */
+  text-decoration: underline; /* ホバー時に下線を追加 */
+}
+
+button {
+  background-color: #1e90ff; /* ボタンの背景色を鮮やかな青に */
+  color: white; /* ボタンのテキストを白に */
+  border: none;
+  padding: 0.5rem 1.5rem; /* パディングを調整 */
+  border-radius: 8px; /* 角を丸く */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* 背景色の変化にトランジションを追加 */
+}
+
+button:hover {
+  background-color: #1c7ed6; /* ホバー時にボタンの色を濃く */
+}
+
+.container {
+  max-width: 1200px; /* コンテナの最大幅を設定 */
+  margin: 0 auto; /* 中央寄せ */
+  padding: 0 1rem; /* 横のパディングを追加 */
+}
+
+.card {
+  background-color: white; /* カードの背景色を白に */
+  border-radius: 10px; /* 角を丸く */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  padding: 1rem; /* パディングを追加 */
+  margin-bottom: 1rem; /* 下に余白を追加 */
+}

@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/app2/(.*)",
+      "destination": "https://backend-teal-five-69.vercel.app/$1"
+    }
+  ]
+}
