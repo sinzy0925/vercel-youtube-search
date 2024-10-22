@@ -167,6 +167,7 @@ def search():
     #response.headers['Access-Control-Allow-Origin'] = 'https://frontend-82bjg1bhp-taros-projects-ed87193f.vercel.app'
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
+#
 
 
 
