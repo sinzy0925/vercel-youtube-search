@@ -13,9 +13,8 @@ import glob
 import tempfile
 import yt_dlp
 import shutil
-from dotenv import load_dotenv
 import time
-
+from dotenv import load_dotenv
 
 # .envファイルを読み込む
 load_dotenv()
@@ -37,6 +36,42 @@ youyaku_shijibun = """
 #内容:
 """
 
+langlist = ['ja','en','aa', 'af', 'ak', 'sq', 'am', 'ar', 'hy', 'as', 'ay', 'az', 'bn', 'ba', 'eu', 'be', 'bho', 'bs', 'br', 'bg', 'my', 'ca', 'ceb', 'zh-Hans', 'zh-Hant', 'co', 'hr', 'cs', 'da', 'dv', 'nl', 'dz','eo', 'et', 'ee', 'fo', 'fj', 'fil', 'fi', 'fr', 'gaa', 'gl', 'lg', 'ka', 'de', 'el', 'gn', 'gu', 'ht', 'ha', 'haw', 'iw', 'hi', 'hmn', 'hu', 'is', 'ig', 'id', 'ga', 'it', 'jv', 'kl', 'kn', 'kk', 'kha', 'km', 'rw', 'ko', 'kri', 'ku', 'ky', 'lo', 'la', 'lv', 'ln', 'lt', 'luo', 'lb', 'mk', 'mg', 'ms', 'ml', 'mt', 'gv', 'mi', 'mr', 'mn', 'mfe', 'ne', 'new', 'nso', 'no', 'ny', 'oc', 'or', 'om', 'os', 'pam', 'ps', 'fa', 'pl', 'pt', 'pt-PT', 'pa', 'qu', 'ro', 'rn', 'ru', 'sm', 'sg', 'sa', 'gd', 'sr', 'crs', 'sn', 'sd', 'si', 'sk', 'sl', 'so', 'st', 'es', 'su', 'sw', 'ss', 'sv', 'tg', 'ta', 'tt', 'te', 'th', 'bo', 'ti', 'to', 'ts', 'tn', 'tum', 'tr', 'tk', 'uk', 'ur', 'ug', 'uz', 've', 'vi', 'war', 'cy', 'fy', 'wo', 'xh', 'yi', 'yo', 'zu']
+language_codes = [
+    'ja',  # 日本語
+    'en',  # 英語
+    'zh',  # 中国語
+]
+language_codes2 = [
+    'hi',  # ヒンディー語
+    'es',  # スペイン語
+    'fr',  # フランス語
+    'ar',  # アラビア語
+    'bn',  # ベンガル語
+    'pt',  # ポルトガル語
+    'ru',  # ロシア語
+    'de',  # ドイツ語
+    'ko',  # 韓国語
+    'it',  # イタリア語
+    'tr',  # トルコ語
+    'vi',  # ベトナム語
+    'pl',  # ポーランド語
+    'uk',  # ウクライナ語
+    'fa',  # ペルシャ語
+    'th',  # タイ語
+    'sw',  # スワヒリ語
+    'nl',  # オランダ語
+    'ro',  # ルーマニア語
+    'hu',  # ハンガリー語
+    'cs',  # チェコ語
+    'el',  # ギリシャ語
+    'da',  # デンマーク語
+    'fi',  # フィンランド語
+    'he',  # ヘブライ語
+    'no',  # ノルウェー語
+    'sk',  # スロバキア語
+    'sl',  # スロベニア語
+]
 
 @app.route("/")
 def hello_world():
@@ -58,6 +93,7 @@ def search():
                 # チャンネルIDがNoneでないことを確認
                 if video['channel']['id'] is not None:
                     results.append(video)
+                    #print(video)
                     #print(f"channel_id: {video['channel']['id']}")
             
             if not videos_search.next():
@@ -78,8 +114,10 @@ def search():
     results = search
     print(f"Total results fetched: {len(results)}")
 
+
     sorted_results = sorted(results, key=lambda x: int(x['viewCount']['text'].split()[0].replace(',', '')), reverse=True)
 
+    
     filtered_results = [
         video for video in sorted_results 
         if is_recent_video(video['publishedTime']) 
@@ -99,10 +137,12 @@ def search():
             #print(descriptionSnippet)
 
         else:
-            descriptionSnippet = "" 
+            descriptionSnippet = ""
+
         language = detect(title)
 
         if language_filter == 'ja' and language == 'ja':
+        #if language == 'ja':
             filtered.append({
                 'title': title,
                 'videoId': video_id,
@@ -112,7 +152,7 @@ def search():
                 'channelName': channel_name,
                 'language': 'ja'
             })
-        elif language_filter == 'ja+en' and language in ['ja', 'en']:
+        elif language_filter == 'ja+en' and language in language_codes:
             filtered.append({
                 'title': title,
                 'videoId': video_id,
@@ -134,10 +174,8 @@ def search():
 @app.route('/api/download/<video_id>', methods=['GET'])
 def download(video_id):
     # 処理の開始時刻を記録
-    start_time = time.time()
-    
+    start_time = time.time()    
     print('download video_id', video_id)
-    
     try:
         # APIキーの設定
         genai.configure(api_key=api_key)
@@ -150,7 +188,11 @@ def download(video_id):
         #transcript_text = download_subtitles(video_url)
 
 
-        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['ja', 'en'], proxies={"https": proxy_server})
+        transcript = YouTubeTranscriptApi.get_transcript(
+            video_id, 
+            languages = langlist, 
+            proxies={"https": proxy_server}
+            )
         
         transcript_text = ""
         for entry in transcript:
@@ -214,7 +256,11 @@ def process_video(video_id):
             print(transcript.language)
 
 
-        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['ja', 'en'])
+        transcript = YouTubeTranscriptApi.get_transcript(
+            video_id, 
+            languages = langlist, 
+            proxies={"https": proxy_server}
+            )
         
         transcript_text = ""
         for entry in transcript:

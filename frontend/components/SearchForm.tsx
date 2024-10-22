@@ -43,7 +43,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
                             value={start}
                             min={1}
                             onChange={(e) => setStart(Math.max(1, Number(e.target.value)))}
-                            className="shadow appearance-none border border-gray-300 rounded w-32 py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600"
+                            className="shadow appearance-none border border-gray-300 rounded w-20 py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600"
                         />
                     </div>
                     <div>
@@ -55,7 +55,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
                             type="number"
                             value={end}
                             onChange={(e) => setEnd(Number(e.target.value))}
-                            className="shadow appearance-none border border-gray-300 rounded w-32 py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600"
+                            className="shadow appearance-none border border-gray-300 rounded w-20 py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600"
                         />
                     </div>
                     <div>
@@ -68,8 +68,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
                             onChange={(e) => setLanguage(e.target.value)}
                             className="shadow appearance-none border border-gray-300 rounded w-32 py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600"
                         >
-                            <option value="ja">日本語</option>
-                            <option value="ja+en">日本語＋英語</option>
+                            <option value="ja">日本語のみ</option>
+                            <option value="ja+en">日本語含む</option>
                         </select>
                     </div>
                 </div>
